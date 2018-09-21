@@ -98,7 +98,6 @@ namespace Recurrence_relations
             Recurrence recurrence = new Recurrence(-1, 1);
             Console.WriteLine("\n\tВвод номера члена последовательности");
             VvodNonNegative(out int n);
-
             Stopwatch stopWatch = new Stopwatch();
             Console.WriteLine("\n\tРезультат выполнения формулой:");
             stopWatch.Start();
@@ -112,7 +111,8 @@ namespace Recurrence_relations
             stopWatch.Start();
             Console.WriteLine("\n\tРезультат: {0}, Время: {1}", recurrence.Recursion(n), stopWatch.Elapsed);
             stopWatch.Reset();
-            Console.ReadLine();
+            Console.WriteLine("\n\tДля завершения работы нажмите любую кнопку...");
+            Console.ReadKey();
         }
     }
 }
