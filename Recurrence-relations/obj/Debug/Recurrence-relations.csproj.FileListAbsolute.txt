@@ -1,7 +1,0 @@
-D:\Projects\HSE-course-apsd\Recurrence-relations\bin\Debug\Recurrence-relations.exe.config
-D:\Projects\HSE-course-apsd\Recurrence-relations\bin\Debug\Recurrence-relations.exe
-D:\Projects\HSE-course-apsd\Recurrence-relations\bin\Debug\Recurrence-relations.pdb
-D:\Projects\HSE-course-apsd\Recurrence-relations\obj\Debug\Recurrence-relations.csprojAssemblyReference.cache
-D:\Projects\HSE-course-apsd\Recurrence-relations\obj\Debug\Recurrence-relations.csproj.CoreCompileInputs.cache
-D:\Projects\HSE-course-apsd\Recurrence-relations\obj\Debug\Recurrence-relations.exe
-D:\Projects\HSE-course-apsd\Recurrence-relations\obj\Debug\Recurrence-relations.pdb
