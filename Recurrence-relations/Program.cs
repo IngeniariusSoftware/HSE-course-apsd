@@ -36,15 +36,32 @@ namespace Recurrence_relations
 
         public double Iteratively(int n)
         {
-            double x1 = X0, x2 = X1, shelf;
-            for (int i = 2; i <= n; i++)
-            {
-                shelf = x2;
-                x2 = 12 * i - 2 * x2 - x1;
-                x1 = shelf;
-            }
 
-            return x2;
+            switch (n)
+            {
+                case 0:
+                    {
+                        return X0;
+                    }
+
+                case 1:
+                    {
+                        return X1;
+                    }
+
+                default:
+                    {
+                        double x1 = X0, x2 = X1, shelf;
+                        for (int i = 2; i <= n; i++)
+                        {
+                            shelf = x2;
+                            x2 = 12 * i - 2 * x2 - x1;
+                            x1 = shelf;
+                        }
+
+                        return x2;
+                    }
+            }
         }
 
         public double Formula(int n)
@@ -79,39 +96,22 @@ namespace Recurrence_relations
         static void Main()
         {
             Recurrence recurrence = new Recurrence(-1, 1);
+            Console.WriteLine("\n\tВвод номера члена последовательности");
             VvodNonNegative(out int n);
 
-            switch (n)
-            {
-                case 0:
-                    {
-                        Console.WriteLine(recurrence.X0);
-                        break;
-                    }
-                case 1:
-                    {
-                        Console.WriteLine(recurrence.X1);
-                        break;
-                    }
-                default:
-                    {
-                        Stopwatch stopWatch = new Stopwatch();
-                        Console.WriteLine("\n\tРезультат выполнения формулой:");
-                        stopWatch.Start();
-                        Console.WriteLine("\n\tРезультат: {0}, Время: {1}", recurrence.Formula(n), stopWatch.Elapsed);
-                        stopWatch.Reset();
-                        Console.WriteLine("\n\tРезультат выполнения циком:");
-                        stopWatch.Start();
-                        Console.WriteLine("\n\tРезультат: {0}, Время: {1}", recurrence.Iteratively(n), stopWatch.Elapsed);
-                        stopWatch.Reset();
-                        Console.WriteLine("\n\tРезультат выполнения рекурсией:");
-                        stopWatch.Start();
-                        Console.WriteLine("\n\tРезультат: {0}, Время: {1}", recurrence.Recursion(n), stopWatch.Elapsed);
-                        stopWatch.Reset();
-                        break;
-                    }
-            }
-
+            Stopwatch stopWatch = new Stopwatch();
+            Console.WriteLine("\n\tРезультат выполнения формулой:");
+            stopWatch.Start();
+            Console.WriteLine("\n\tРезультат: {0}, Время: {1}", recurrence.Formula(n), stopWatch.Elapsed);
+            stopWatch.Reset();
+            Console.WriteLine("\n\tРезультат выполнения циком:");
+            stopWatch.Start();
+            Console.WriteLine("\n\tРезультат: {0}, Время: {1}", recurrence.Iteratively(n), stopWatch.Elapsed);
+            stopWatch.Reset();
+            Console.WriteLine("\n\tРезультат выполнения рекурсией:");
+            stopWatch.Start();
+            Console.WriteLine("\n\tРезультат: {0}, Время: {1}", recurrence.Recursion(n), stopWatch.Elapsed);
+            stopWatch.Reset();
             Console.ReadLine();
         }
     }
