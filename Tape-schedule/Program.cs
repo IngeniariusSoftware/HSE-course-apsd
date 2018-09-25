@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tape_schedule
 {
@@ -73,7 +70,7 @@ namespace Tape_schedule
 
             PrintConditions(workCount, workerCount, workTime);
             int j = 0;
-            for (int i = 0; i < workerCount && workTime.Sum() > 0; i++)
+            for (int i = 0; i < workerCount; i++)
             {
                 Console.Write("\tРаботник {0}:", i + 1);
                 int deltaWorkTime = maxWorkTime;
