@@ -35,6 +35,19 @@ namespace Tape_schedule
             return 0;
         }
 
+        public static void PrintConditions(int workCount, int workerCount, int[] workTime)
+        {
+            Console.WriteLine("\n\tУсловия задачи:");
+            for (int i = 0; i < workCount; i++)
+            {
+                Console.WriteLine("\n\t{0} - {1}", (char)(65 + i), workTime[i]);
+            }
+
+            Console.WriteLine("\n\tКоличество работников: {0}", workerCount);
+            Console.WriteLine("\n\tМаксимальное время: {0}", workTime.Max());
+            Console.WriteLine("\n\tСреднее время: {0}\n", Math.Ceiling((double)workTime.Sum() / workerCount));
+        }
+
         static void Main()
         {
             Console.WriteLine("\n\tВвод количества работ");
@@ -49,27 +62,22 @@ namespace Tape_schedule
             Console.WriteLine("\n\tВвод количества работников");
             int workerCount = VvodNonNegative();
             int maxWorkTime;
-            if (workTime.Last() > workTime.Sum() / workerCount)
+            if (workTime.Max() > Math.Ceiling((double)workTime.Sum() / workerCount))
             {
-                maxWorkTime = workTime.Last();
-
+                maxWorkTime = workTime.Max();
             }
             else
             {
-                maxWorkTime = workTime.Sum() / workerCount;
+                maxWorkTime = (int)Math.Ceiling((double)workTime.Sum() / workerCount);
             }
 
-            int j = -1;
-            for (int i = 0; i < workerCount; i++)
+            PrintConditions(workCount, workerCount, workTime);
+            int j = 0;
+            for (int i = 0; i < workerCount && workTime.Sum() > 0; i++)
             {
-                if (j == -1 || workTime[j] == 0)
-                {
-                    j = Array.BinarySearch(workTime, workTime.Max());
-                }
-
                 Console.Write("\tРаботник {0}:", i + 1);
                 int deltaWorkTime = maxWorkTime;
-                while (workTime.Sum() > 0 && deltaWorkTime > 0)
+                while (workTime.Sum() > 0 && deltaWorkTime > 0 && j < workCount)
                 {
                     if (deltaWorkTime >= workTime[j])
                     {
@@ -80,15 +88,11 @@ namespace Tape_schedule
                             maxWorkTime - deltaWorkTime + workTime[j]);
                         deltaWorkTime -= workTime[j];
                         workTime[j] = 0;
-                        j--;
+                        j++;
                     }
                     else
                     {
-                        Console.Write(
-                            " {0} ({1} - {2});",
-                            (char)(65 + j),
-                            maxWorkTime - deltaWorkTime,
-                            maxWorkTime);
+                        Console.Write(" {0} ({1} - {2});", (char)(65 + j), maxWorkTime - deltaWorkTime, maxWorkTime);
                         workTime[j] -= deltaWorkTime;
                         deltaWorkTime = 0;
                     }
