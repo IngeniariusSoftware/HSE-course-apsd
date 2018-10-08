@@ -3,6 +3,8 @@ using System.Diagnostics;
 
 namespace Recurrence_relations
 {
+    using System.Collections.Generic;
+
     public class Recurrence
     {
         public double X0, X1;
