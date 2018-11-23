@@ -104,11 +104,6 @@
             }
         }
 
-        public static void Main(string[] args)
-        {
-
-        }
-
         public static void PrintMatrixInFile(
             (int[,], int) resultGenerator,
             (int[,], int) resultAlgorithm,

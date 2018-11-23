@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using JM.LinqFaster;
 
-
 public class Solver
 {
     public int[,] Matrix;
+
     //public int MaxThread;
     private List<bool> used;
-    public int[,] solution;
-    public int n;
-    private static int T;
-    private Stack<(int, bool)> currentPath;
-    private int min;
 
+    public int[,] solution;
+
+    public int n;
+
+    private static int T;
+
+    private Stack<(int, bool)> currentPath;
+
+    private int min;
     public static void Main(string[] args)
     {
-        
+
     }
 
     public Solver(int[,] arr)
@@ -29,8 +33,8 @@ public class Solver
 
         // пустое решение
         for (var i = 0; i < n; i++)
-            for (var j = 0; j < n; j++)
-                solution[i, j] = 0;
+        for (var j = 0; j < n; j++)
+            solution[i, j] = 0;
     }
 
     public (int[,], int) Solve()
