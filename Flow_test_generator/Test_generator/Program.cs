@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using JM.LinqFaster;
 
 
@@ -14,6 +13,11 @@ public class Solver
     private static int T;
     private Stack<(int, bool)> currentPath;
     private int min;
+
+    public static void Main(string[] args)
+    {
+        
+    }
 
     public Solver(int[,] arr)
     {

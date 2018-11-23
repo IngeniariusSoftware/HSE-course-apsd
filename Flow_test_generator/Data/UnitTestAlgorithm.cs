@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-
-namespace Data
+﻿namespace Data
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
+    using System;
 
     [TestClass]
     public class UnitTestAlgorithm
@@ -111,7 +109,10 @@ namespace Data
 
         }
 
-        public static void PrintMatrixInFile((int[,], int) resultGenerator, (int[,], int) resultAlgorithm, int testNumber)
+        public static void PrintMatrixInFile(
+            (int[,], int) resultGenerator,
+            (int[,], int) resultAlgorithm,
+            int testNumber)
         {
             Output.WriteLine("\nНомер теста: {0}", testNumber);
             Output.WriteLine("\nВремя: {0}", DateTime.Now);
