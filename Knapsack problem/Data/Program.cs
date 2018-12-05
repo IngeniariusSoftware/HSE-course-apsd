@@ -6,7 +6,8 @@
 
     class Program
     {
-        private static List<(string itemName, double cost, double weight, int count, double value)> _items = new List<(string itemName, double cost, double weight, int count, double value)>();
+        private static List<(string itemName, double cost, double weight, int count, double value)> _items =
+            new List<(string itemName, double cost, double weight, int count, double value)>();
 
         private static (List<int> items, double sum, double weight) _bestKit = (null, -1, 0);
 
@@ -29,7 +30,7 @@
                     case 2:
                         {
                             _items.Add(
-                                (_items.Count.ToString(), double.Parse(tokens[0]), double.Parse(tokens[1]), 1,
+                                ((_items.Count + 1).ToString(), double.Parse(tokens[0]), double.Parse(tokens[1]), 1,
                                     double.Parse(tokens[0]) / double.Parse(tokens[1])));
                             break;
                         }
@@ -37,7 +38,7 @@
                     case 3:
                         {
                             _items.Add(
-                                (_items.Count.ToString(), double.Parse(tokens[0]), double.Parse(tokens[1]),
+                                ((_items.Count + 1).ToString(), double.Parse(tokens[0]), double.Parse(tokens[1]),
                                     int.Parse(tokens[2]), double.Parse(tokens[0]) / double.Parse(tokens[1])));
                             break;
                         }
@@ -92,12 +93,14 @@
                 Console.WriteLine($"Сумма: {_bestKit.sum}; Вес: {_bestKit.weight}\n");
                 for (int i = 0; i < _bestKit.items.Count - 1; i++)
                 {
-                    Console.WriteLine(
-                        $"Название: {_items[i].itemName, 6}; Цена: {_items[i].cost, 4}; Вес: {_items[i].weight, 4}; Количество: {_bestKit.items[i], 3}; Удельная стоимость: {_items[i].value}");
+                    if (_bestKit.items[i] != 0)
+                    {
+                        Console.WriteLine(
+                            $"Название: {_items[i].itemName, 6}; Цена: {_items[i].cost, 4}; Вес: {_items[i].weight, 4}; Количество: {_bestKit.items[i], 3}; Суммарная стоимость: {_items[i].count * _items[i].cost, 4}, Суммарный вес: {_items[i].count * _items[i].weight}");
+                    }
                 }
             }
         }
-
 
         private static void PrintItems()
         {
