@@ -69,20 +69,48 @@
             }
             else
             {
-                if (backpackKit[backpackKit.Count - 1] < _items[backpackKit.Count - 1].count
-                    && backpackWeight + _items[backpackKit.Count - 1].weight <= _backpackVolume)
+                if (backpackKit.Count < _items.Count)
                 {
-                    List<int> newBackpackItems1 = new List<int>(backpackKit);
-                    newBackpackItems1[newBackpackItems1.Count - 1]++;
-                    CollectBackpack(
-                        newBackpackItems1,
-                        sum + _items[backpackKit.Count - 1].cost,
-                        backpackWeight + _items[backpackKit.Count - 1].weight);
+                    if (backpackKit[backpackKit.Count - 1] < _items[backpackKit.Count - 1].count
+                        && backpackWeight + _items[backpackKit.Count - 1].weight <= _backpackVolume
+                        && ((_backpackVolume - backpackWeight - _items[backpackKit.Count - 1].weight)
+                            * _items[backpackKit.Count].value
+                            + _items[backpackKit.Count - 1].weight * _items[backpackKit.Count - 1].value)
+                        > (_backpackVolume - backpackWeight) * _items[backpackKit.Count].value)
+                    {
+                        List<int> newBackpackItems1 = new List<int>(backpackKit);
+                        newBackpackItems1[newBackpackItems1.Count - 1]++;
+                        CollectBackpack(
+                            newBackpackItems1,
+                            sum + _items[backpackKit.Count - 1].cost,
+                            backpackWeight + _items[backpackKit.Count - 1].weight);
+                    }
+                    else
+                    {
+                        List<int> newBackpackItems2 = new List<int>(backpackKit);
+                        newBackpackItems2.Add(0);
+                        CollectBackpack(newBackpackItems2, sum, backpackWeight);
+                    }
                 }
-
-                List<int> newBackpackItems2 = new List<int>(backpackKit);
-                newBackpackItems2.Add(0);
-                CollectBackpack(newBackpackItems2, sum, backpackWeight);
+                else
+                {
+                    if (backpackKit[backpackKit.Count - 1] < _items[backpackKit.Count - 1].count
+                        && backpackWeight + _items[backpackKit.Count - 1].weight <= _backpackVolume)
+                    {
+                        List<int> newBackpackItems1 = new List<int>(backpackKit);
+                        newBackpackItems1[newBackpackItems1.Count - 1]++;
+                        CollectBackpack(
+                            newBackpackItems1,
+                            sum + _items[backpackKit.Count - 1].cost,
+                            backpackWeight + _items[backpackKit.Count - 1].weight);
+                    }
+                    else
+                    {
+                        List<int> newBackpackItems2 = new List<int>(backpackKit);
+                        newBackpackItems2.Add(0);
+                        CollectBackpack(newBackpackItems2, sum, backpackWeight);
+                    }
+                }
             }
         }
 
