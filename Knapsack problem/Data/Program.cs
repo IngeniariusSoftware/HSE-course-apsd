@@ -9,9 +9,9 @@
         private static List<(string itemName, double cost, double weight, int count, double value)> _items =
             new List<(string itemName, double cost, double weight, int count, double value)>();
 
-        private static (List<int> items, double sum, double weight) _bestKit = (null, -1, 0);
+        private static (List<int> items, double sum, double weight) bestKit = (null, -1, 0);
 
-        private static double _backpackVolume = 0;
+        private static double backpackVolume = 0;
 
         private static void ParserItems()
         {
@@ -23,7 +23,7 @@
                 {
                     case 1:
                         {
-                            _backpackVolume = double.Parse(tokens[0]);
+                            backpackVolume = double.Parse(tokens[0]);
                             break;
                         }
 
@@ -58,73 +58,63 @@
 
         private static void CollectBackpack(List<int> backpackKit, double sum, double backpackWeight)
         {
-            if (backpackKit.Count > _items.Count)
+            if (sum > bestKit.sum)
             {
-                if (_bestKit.sum < sum)
-                {
-                    _bestKit.items = backpackKit;
-                    _bestKit.sum = sum;
-                    _bestKit.weight = backpackWeight;
-                }
+                bestKit.sum = sum;
+                bestKit.items = backpackKit;
+                bestKit.weight = backpackWeight;
             }
-            else
+
+            if (backpackKit.Count <= _items.Count)
             {
-                if (backpackKit.Count < _items.Count)
+                // Проверяем, что еще остались предметы этого типа
+                bool isLeft = backpackKit[backpackKit.Count - 1] < _items[backpackKit.Count - 1].count;
+
+                // Проверяем, что хватает вместимости рюкзака для предмета
+                bool isEmpty = backpackWeight + _items[backpackKit.Count - 1].weight <= backpackVolume;
+
+                if (isEmpty && isLeft)
                 {
-                    if (backpackKit[backpackKit.Count - 1] < _items[backpackKit.Count - 1].count
-                        && backpackWeight + _items[backpackKit.Count - 1].weight <= _backpackVolume
-                        && ((_backpackVolume - backpackWeight - _items[backpackKit.Count - 1].weight)
-                            * _items[backpackKit.Count].value
-                            + _items[backpackKit.Count - 1].weight * _items[backpackKit.Count - 1].value)
-                        > (_backpackVolume - backpackWeight) * _items[backpackKit.Count].value)
+                    if ((backpackVolume - backpackWeight) * _items[backpackKit.Count - 1].value + sum > bestKit.sum)
                     {
+                        // Склонируем содержимое рюкзака, чтобы изменять в дальнейшем
                         List<int> newBackpackItems1 = new List<int>(backpackKit);
+
+                        // Добавим предмет в рюкзак
                         newBackpackItems1[newBackpackItems1.Count - 1]++;
+
+                        // Соберем рюкзак с учетом того, что положили этот предмет
                         CollectBackpack(
                             newBackpackItems1,
                             sum + _items[backpackKit.Count - 1].cost,
                             backpackWeight + _items[backpackKit.Count - 1].weight);
-                    }
-                    else
-                    {
-                        List<int> newBackpackItems2 = new List<int>(backpackKit);
-                        newBackpackItems2.Add(0);
-                        CollectBackpack(newBackpackItems2, sum, backpackWeight);
                     }
                 }
                 else
                 {
-                    if (backpackKit[backpackKit.Count - 1] < _items[backpackKit.Count - 1].count
-                        && backpackWeight + _items[backpackKit.Count - 1].weight <= _backpackVolume)
-                    {
-                        List<int> newBackpackItems1 = new List<int>(backpackKit);
-                        newBackpackItems1[newBackpackItems1.Count - 1]++;
-                        CollectBackpack(
-                            newBackpackItems1,
-                            sum + _items[backpackKit.Count - 1].cost,
-                            backpackWeight + _items[backpackKit.Count - 1].weight);
-                    }
-                    else
-                    {
-                        List<int> newBackpackItems2 = new List<int>(backpackKit);
-                        newBackpackItems2.Add(0);
-                        CollectBackpack(newBackpackItems2, sum, backpackWeight);
-                    }
+                    // Склонируем содержимое рюкзака, чтобы изменять в дальнейшем
+                    List<int> newBackpackItems2 = new List<int>(backpackKit);
+
+                    // Переходим к следующему типу предметов
+                    newBackpackItems2.Add(0);
+
+                    // Соберем рюкзак для данного набора
+                    CollectBackpack(newBackpackItems2, sum, backpackWeight);
                 }
             }
         }
 
         private static void PrintBackpack()
         {
-            if (_bestKit.items != null)
+            if (bestKit.items != null)
             {
-                Console.WriteLine($"Сумма: {_bestKit.sum}; Вес: {_bestKit.weight}\n");
-                for (int i = 0; i < _bestKit.items.Count - 1; i++)
+                Console.WriteLine($"Сумма: {bestKit.sum}; Вес: {bestKit.weight}\n");
+                for (int i = 0; i < bestKit.items.Count - 1; i++)
                 {
-                    if (_bestKit.items[i] != 0)
+                    if (bestKit.items[i] != 0)
                     {
                         Console.WriteLine(
-                            $"Название: {_items[i].itemName, 6}; Цена: {_items[i].cost, 4}; Вес: {_items[i].weight, 4}; Количество: {_bestKit.items[i], 3}; Суммарная стоимость: {_items[i].count * _items[i].cost, 4}, Суммарный вес: {_items[i].count * _items[i].weight}");
+                            $"Название: {_items[i].itemName,6}; Цена: {_items[i].cost,4}; Вес: {_items[i].weight,4}; Количество: {bestKit.items[i],3}; Суммарная стоимость: {_items[i].count * _items[i].cost,4}, Суммарный вес: {_items[i].count * _items[i].weight}");
                     }
                 }
             }
@@ -132,7 +122,7 @@
 
         private static void PrintItems()
         {
-            Console.WriteLine($"Вместимость рюкзака: {_backpackVolume}\n");
+            Console.WriteLine($"Вместимость рюкзака: {backpackVolume}\n");
             for (int i = 0; i < _items.Count - 1; i++)
             {
                 Console.WriteLine(
@@ -149,7 +139,7 @@
             PrintItems();
             var backpackKit = new List<int>();
             backpackKit.Add(0);
-            CollectBackpack(backpackKit, 0, 0);
+            CollectBackpack(backpackKit, -1, 0);
             PrintBackpack();
             Console.ReadKey();
         }

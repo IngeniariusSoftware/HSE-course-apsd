@@ -8,6 +8,8 @@ namespace Data
 
     class Program
     {
+        
+
         private static List<List<double>> _projects = new List<List<int>>();
 
         private static double[,] _investments;
